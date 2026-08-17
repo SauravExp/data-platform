@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Spark
+spark-warehouse/
+metastore_db/
+
+# dbt
+target/
+dbt_packages/
+
+# Airflow
+airflow.db
+airflow.cfg
+airflow-webserver.pid
+airflow-scheduler.pid
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Credentials
+*.pem
+*.key
+credentials.json
+service-account.json
