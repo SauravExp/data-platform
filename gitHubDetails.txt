@@ -1,0 +1,320 @@
+Absolutely. Let's keep it very simple and do it step by step on Windows.
+
+Step 1 — Install Git
+
+On your Windows computer, download and install:
+
+Git for Windows
+
+After installation, open Command Prompt.
+
+Run:
+
+git --version
+
+If you see something like:
+
+git version 2.51.0
+
+Git is installed correctly.
+
+Step 2 — Create GitHub Repository
+
+Go to GitHub.
+
+Login.
+Click + at the top-right.
+Click New repository.
+Enter:
+Repository name: data-platform
+Select Private.
+Check Add a README file.
+Click Create repository.
+
+You now have:
+
+GitHub
+   |
+   └── data-platform
+Step 3 — Create a folder on Windows
+
+Open Command Prompt.
+
+Run:
+
+mkdir C:\Projects
+
+Then:
+
+cd C:\Projects
+Step 4 — Download the GitHub repository
+
+On GitHub, open your repository.
+
+Click:
+
+Code → HTTPS
+
+Copy the URL.
+
+It will look similar to:
+
+https://github.com/your-company/data-platform.git
+
+In Command Prompt:
+
+git clone https://github.com/your-company/data-platform.git
+
+Then:
+
+cd data-platform
+
+Now your repository is on your computer:
+
+C:\Projects\data-platform
+Step 5 — Create the folders
+
+Run these commands:
+
+mkdir dags
+mkdir dbt
+mkdir spark
+mkdir scripts
+mkdir docs
+mkdir tests
+
+Now you have:
+
+data-platform
+│
+├── dags
+├── dbt
+├── spark
+├── scripts
+├── docs
+└── tests
+
+These are the folders from your requirement.
+
+Step 6 — Put a README inside each folder
+
+Git doesn't keep empty folders.
+
+Run:
+
+echo # Airflow DAGs > dags\README.md
+echo # DBT Projects > dbt\README.md
+echo # Spark Jobs > spark\README.md
+echo # Scripts > scripts\README.md
+echo # Documentation > docs\README.md
+echo # Tests > tests\README.md
+
+Now Git will keep the folders.
+
+Step 7 — Create .gitignore
+
+In the data-platform folder, create a file named:
+
+.gitignore
+
+You can use Notepad:
+
+notepad .gitignore
+
+Put this inside:
+
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+*.log
+.vscode/
+.idea/
+target/
+dbt_packages/
+
+Save and close Notepad.
+
+Step 8 — Save everything to GitHub
+
+First check what changed:
+
+git status
+
+Then:
+
+git add .
+
+Create a commit:
+
+git commit -m "Create project structure"
+
+Then upload it:
+
+git push origin main
+
+Go back to GitHub and refresh the page.
+
+You should see:
+
+dags
+dbt
+spark
+scripts
+docs
+tests
+README.md
+.gitignore
+Step 9 — Create dev branch
+
+This is important.
+
+We want two main branches:
+
+main = Production
+dev  = Development
+
+Run:
+
+git checkout -b dev
+
+Then:
+
+git push -u origin dev
+
+Now GitHub has:
+
+main
+dev
+Step 10 — How developers should work
+
+Don't directly modify main.
+
+For a new task, create a new branch.
+
+For example, you want to create an Airflow DAG.
+
+First:
+
+git checkout dev
+
+Get the latest code:
+
+git pull origin dev
+
+Create your working branch:
+
+git checkout -b feature/customer-dag
+
+Now you work in:
+
+dags\
+
+For example:
+
+dags
+└── customer_dag.py
+Step 11 — Upload your changes
+
+After you finish your work:
+
+git add .
+
+Then:
+
+git commit -m "Add customer DAG"
+
+Then:
+
+git push -u origin feature/customer-dag
+Step 12 — Create Pull Request
+
+Go to GitHub.
+
+You should see something like:
+
+Compare & pull request
+
+Click it.
+
+Set:
+
+From:
+feature/customer-dag
+
+
+To:
+dev
+
+Then click:
+
+Create pull request
+
+Someone reviews your code.
+
+After approval:
+
+feature/customer-dag
+        ↓
+       dev
+Step 13 — Protect main and dev
+
+This prevents people from accidentally changing these branches directly.
+
+On GitHub:
+
+Repository → Settings → Rules → Rulesets
+
+Create a rule for:
+
+dev
+
+Enable:
+
+Require pull request
+Require 1 approval
+Block force pushes
+Prevent branch deletion
+
+Then create another rule for:
+
+main
+
+For main, I recommend:
+
+Require pull request
+Require 2 approvals
+Block force pushes
+Prevent branch deletion
+Require status checks
+Final workflow
+
+Your team will work like this:
+
+                  GitHub
+                     |
+          ┌──────────┴──────────┐
+          |                     |
+        main                   dev
+     Production             Development
+                                ↑
+                                |
+                         Pull Request
+                                |
+                         feature branch
+                                ↑
+                                |
+                           Developer
+In very simple terms:
+
+1. Create GitHub repository
+2. Clone it to Windows
+3. Create dags, dbt, spark, scripts, docs, tests
+4. Push them to GitHub
+5. Create dev branch
+6. Protect dev and main
+7. Developers create feature branches
+8. Developers create Pull Requests to dev
+9. Test the changes
+10. Merge dev to main when ready for production.
